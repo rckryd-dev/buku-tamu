@@ -3,5 +3,11 @@
     "id": 1,
     "username": "ricky",
     "password": "pw123"
+  },
+  {
+    "id": 1782458546953,
+    "username": "udin",
+    "password": "samsudin",
+    "createdAt": "2026-06-26T07:22:26.953Z"
   }
 ]

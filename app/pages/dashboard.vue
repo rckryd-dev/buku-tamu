@@ -3,6 +3,8 @@ definePageMeta({
   layout: "admin",
   middleware: "auth",
 })
+
+const { data: guestbook } = await useFetch("/api/guestbook")
 </script>
 
 <template>
@@ -27,11 +29,7 @@ definePageMeta({
             Total Buku Tamu
           </small>
 
-          <h1 class="display-5">
-
-            0
-
-          </h1>
+          <h1 class="display-5">{{ guestbook?.length || 0 }}</h1>
 
         </div>
 

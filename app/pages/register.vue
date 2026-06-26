@@ -6,24 +6,46 @@ definePageMeta({
 const form = reactive({
   username: "",
   password: "",
+  confirmPassword: "",
 })
 
 const loading = ref(false)
 const error = ref("")
+const success = ref("")
 
-async function login() {
+async function register() {
   error.value = ""
+  success.value = ""
+
+  if (!form.username || !form.password || !form.confirmPassword) {
+    error.value = "Semua field wajib diisi."
+    return
+  }
+
+  if (form.password !== form.confirmPassword) {
+    error.value = "Konfirmasi password tidak sesuai."
+    return
+  }
+
   loading.value = true
 
   try {
-    await $fetch("/api/login", {
+    await $fetch("/api/register", {
       method: "POST",
-      body: form,
+      body: {
+        username: form.username,
+        password: form.password,
+      },
     })
 
-    await navigateTo("/dashboard")
+    success.value = "Registrasi berhasil. Mengalihkan ke halaman login..."
+
+    setTimeout(() => {
+      navigateTo("/login")
+    }, 1500)
+
   } catch (err) {
-    error.value = err?.statusMessage || "Login gagal"
+    error.value = err?.statusMessage || "Registrasi gagal"
   }
 
   loading.value = false
@@ -46,7 +68,7 @@ async function login() {
             </h3>
 
             <p class="text-muted mb-0">
-              Silakan masuk untuk melanjutkan
+              Buat akun baru untuk melanjutkan
             </p>
 
           </div>
@@ -57,6 +79,14 @@ async function login() {
           >
             <i class="bi bi-exclamation-circle-fill me-2"></i>
             {{ error }}
+          </div>
+
+          <div
+            v-if="success"
+            class="alert alert-success"
+          >
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ success }}
           </div>
 
           <div class="mb-3">
@@ -81,7 +111,7 @@ async function login() {
 
           </div>
 
-          <div class="mb-4">
+          <div class="mb-3">
 
             <label class="form-label fw-semibold">
               Password
@@ -98,7 +128,30 @@ async function login() {
                 type="password"
                 class="form-control"
                 placeholder="Masukkan password"
-                @keyup.enter="login"
+              >
+
+            </div>
+
+          </div>
+
+          <div class="mb-4">
+
+            <label class="form-label fw-semibold">
+              Konfirmasi Password
+            </label>
+
+            <div class="input-group">
+
+              <span class="input-group-text">
+                <i class="bi bi-lock"></i>
+              </span>
+
+              <input
+                v-model="form.confirmPassword"
+                type="password"
+                class="form-control"
+                placeholder="Masukkan kembali password"
+                @keyup.enter="register"
               >
 
             </div>
@@ -107,7 +160,7 @@ async function login() {
 
           <button
             class="btn btn-primary btn-lg w-100"
-            @click="login"
+            @click="register"
             :disabled="loading"
           >
 
@@ -116,21 +169,21 @@ async function login() {
               class="spinner-border spinner-border-sm me-2"
             ></span>
 
-            {{ loading ? "Memproses..." : "Masuk" }}
+            {{ loading ? "Memproses..." : "Daftar" }}
 
           </button>
 
           <div class="text-center mt-4">
 
             <small class="text-muted">
-              Belum punya akun?
+              Sudah punya akun?
             </small>
 
             <NuxtLink
-              to="/register"
+              to="/login"
               class="text-decoration-none fw-semibold ms-1"
             >
-              Daftar
+              Masuk
             </NuxtLink>
 
           </div>

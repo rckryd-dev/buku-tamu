@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": 1782457817987,
+    "name": "Ricky",
+    "email": "ricky20230200054@sibermu.ac.id",
+    "message": "pertamax gan",
+    "createdAt": "2026-06-26T07:10:17.987Z"
+  },
+  {
+    "id": 1782457982026,
+    "name": "Mr. Tamvan",
+    "email": "tamvandanberani@yopmail.com",
+    "message": "Halooo",
+    "createdAt": "2026-06-26T07:13:02.026Z"
+  }
+]
